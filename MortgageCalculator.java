@@ -3,12 +3,10 @@ import java.util.Scanner;
 
 public class MortgageCalculator {
 
-  final static Scanner scanner = new Scanner(System.in);
   final static byte MONTHS_IN_YEAR = 12;
   final static byte PERCENT = 100;
 
   public static void main(String[] args) {
-
     int principal = getPrincipal();
     double monthlyInterestRate = getMonthlyInterestRate();
     short numMonths = getNumPayments();
@@ -18,34 +16,27 @@ public class MortgageCalculator {
 
     System.out.println("Mortgage: " + result);
 
-    scanner.close();
   }
 
   public static int getPrincipal() {
-    System.out.print("Principal ($1K - $1M): ");
-    int principal = scanner.nextInt();
-    // Validate principal
+    int principal = (int) readNumber("Principal ($1K - $1M): ");
     boolean isValid = validateNumberRange(1_000, 1_000_000, principal);
 
     return isValid ? principal : getPrincipal();
   }
 
   public static double getMonthlyInterestRate() {
-    System.out.print("Annual Interest Rate: ");
-    float annualInterest = scanner.nextFloat();
-    // Validate annual interest
+    float annualInterest = (float) readNumber("Annual Interest Rate: ");
     boolean isValid = validateNumberRange(1, 30, annualInterest);
 
     return isValid ? (annualInterest / MONTHS_IN_YEAR / PERCENT) : getMonthlyInterestRate();
   }
 
-  public static short getNumPayments() {
-    System.out.print("Period (Years): ");
-    short years = scanner.nextShort();
-
+  public static byte getNumPayments() {
+    byte years = (byte) readNumber("Period (Years): ");
     boolean isValid = validateNumberRange(1, 30, years);
 
-    return isValid ? (short) (years * MONTHS_IN_YEAR) : getNumPayments();
+    return isValid ? (byte) (years * MONTHS_IN_YEAR) : getNumPayments();
   }
 
   public static double calculateMortgage(int principal, double monthlyInterestRate, short numMonths) {
@@ -65,8 +56,18 @@ public class MortgageCalculator {
     boolean isWithinRange = (number >= min) && (number <= max);
 
     if (!isWithinRange)
-      System.out.println(String.format("Invalid input. Please enter a number between %s and %s", min, max));
+      System.out.println(String.format("Invalid input. Please enter a value between %s and %s", min, max));
 
     return isWithinRange;
+  }
+
+  public static double readNumber(String prompt) {
+    System.out.println(prompt);
+
+    Scanner scanner = new Scanner(System.in);
+    double value = scanner.nextFloat();
+    scanner.close();
+
+    return value;
   }
 }
