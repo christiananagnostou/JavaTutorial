@@ -15,25 +15,37 @@ public class MortgageCalculator {
 
     double mortgage = calculateMortgage(principal, monthlyInterestRate, numMonths);
     String result = formatCurrency(mortgage);
+
     System.out.println("Mortgage: " + result);
 
     scanner.close();
   }
 
   public static int getPrincipal() {
-    System.out.print("Principal: ");
-    return scanner.nextInt();
+    System.out.print("Principal ($1K - $1M): ");
+    int principal = scanner.nextInt();
+    // Validate principal
+    boolean isValid = validateNumberRange(1_000, 1_000_000, principal);
+
+    return isValid ? principal : getPrincipal();
   }
 
   public static double getMonthlyInterestRate() {
     System.out.print("Annual Interest Rate: ");
     float annualInterest = scanner.nextFloat();
-    return annualInterest / MONTHS_IN_YEAR / PERCENT;
+    // Validate annual interest
+    boolean isValid = validateNumberRange(1, 30, annualInterest);
+
+    return isValid ? (annualInterest / MONTHS_IN_YEAR / PERCENT) : getMonthlyInterestRate();
   }
 
   public static short getNumPayments() {
     System.out.print("Period (Years): ");
-    return (short) (scanner.nextShort() * MONTHS_IN_YEAR);
+    short years = scanner.nextShort();
+
+    boolean isValid = validateNumberRange(1, 30, years);
+
+    return isValid ? (short) (years * MONTHS_IN_YEAR) : getNumPayments();
   }
 
   public static double calculateMortgage(int principal, double monthlyInterestRate, short numMonths) {
@@ -49,8 +61,12 @@ public class MortgageCalculator {
     return NumberFormat.getCurrencyInstance().format(number);
   }
 
-  public static void validateValue() {
-    
+  public static boolean validateNumberRange(int min, int max, float number) {
+    boolean isWithinRange = (number >= min) && (number <= max);
 
+    if (!isWithinRange)
+      System.out.println(String.format("Invalid input. Please enter a number between %s and %s", min, max));
+
+    return isWithinRange;
   }
 }
