@@ -21,6 +21,7 @@ public class Statements {
 
     // Ternary operator
     String className = (income > 100_000) ? "First" : "Economy";
+    System.out.println(className);
 
     // Switch Statements
     String role = "admin";
@@ -48,6 +49,8 @@ public class Statements {
       System.out.println("Buzz");
     else
       System.out.println(number);
+
+    scanner.close();
 
   }
 }
