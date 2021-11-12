@@ -73,10 +73,8 @@ public class MortgageCalculator {
 
   public static boolean validateNumberRange(double value, double min, double max) {
     boolean isWithinRange = (value >= min) && (value <= max);
-
     if (!isWithinRange)
       System.out.println(String.format("Invalid input. Please enter a value between %s and %s", min, max));
-
     return isWithinRange;
   }
 
@@ -84,7 +82,6 @@ public class MortgageCalculator {
     System.out.print(prompt);
 
     double value = scanner.nextFloat();
-
     boolean isValid = validateNumberRange(value, min, max);
 
     return isValid ? value : readNumber(prompt, min, max);
