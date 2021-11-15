@@ -1,4 +1,3 @@
-package com.mytube;
 
 public class Video {
     private String fileName;

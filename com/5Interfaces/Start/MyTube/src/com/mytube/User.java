@@ -1,4 +1,3 @@
-package com.mytube;
 
 public class User {
     private String email;
