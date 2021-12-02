@@ -9,12 +9,11 @@ public class User implements Comparable<User> {
 
   @Override
   public int compareTo(User other) {
-    return points - other.points;
+    return this.points - other.points;
   }
 
   @Override
   public String toString() {
-    return "Points=" + points;
+    return "Points: " + this.points;
   }
-
 }
